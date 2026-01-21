@@ -1,0 +1,452 @@
+{
+	"info": {
+		"_postman_id": "1c5d1020-659b-4984-8f4e-4900a6ee68b4",
+		"name": "ERP Purchase Workflow API",
+		"description": " Corporate Purchase & Supply Chain (MultiWarehouse) — PR → PO → GRN (Partial Receive).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48831227",
+		"_collection_link": "https://sharmin-akter-mini-9312697.postman.co/workspace/Sharmin-Akter's-Workspace~4553c124-8763-4e6b-8547-8543a47a70e2/collection/48831227-1c5d1020-659b-4984-8f4e-4900a6ee68b4?action=share&source=collection_link&creator=48831227"
+	},
+	"item": [
+		{
+			"name": "Master - Warehouses",
+			"item": [
+				{
+					"name": "Create Warehouse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"WH-KH\",\n  \"name\": \"Khulna Warehouse\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/warehouses",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"warehouses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Master - Suppliers",
+			"item": [
+				{
+					"name": "Create Supplier",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"code\": \"SUP-003\",\n  \"name\": \"BRD Supplier\",\n  \"phone\": \"01724567245\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/suppliers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"suppliers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Master - Products",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sku\": \"P-1004\",\n  \"name\": \"Sand\",\n  \"uom\": \"bag\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/products?q=cem&page=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "cem"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Purchase Requisition (PR)",
+			"item": [
+				{
+					"name": "Create PR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"warehouseId\": 1,\n  \"prDate\": \"2026-01-20\",\n  \"items\": [\n    {\"productId\": 1, \"qty\": 100},\n    {\"productId\": 4, \"qty\": 20}\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/pr",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List PR",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/pr?warehouseId=1&status=draft&q=PR-",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pr"
+							],
+							"query": [
+								{
+									"key": "warehouseId",
+									"value": "1"
+								},
+								{
+									"key": "status",
+									"value": "draft"
+								},
+								{
+									"key": "q",
+									"value": "PR-"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get PR By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/pr/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pr",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve PR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/pr/1/approve",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"pr",
+								"1",
+								"approve"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Purchase Order (PO)",
+			"item": [
+				{
+					"name": "Create PO",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"prId\": 1,\n  \"supplierId\": 2,\n  \"poDate\": \"2026-01-20\",\n  \"items\": [\n    {\"productId\": 1, \"qty\": 100, \"unitPrice\": 52.5},\n    {\"productId\": 4, \"qty\": 20, \"unitPrice\": 120}\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/po",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"po"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List PO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/po?warehouseId=1&supplierId=2&status=draft&q=PO-",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"po"
+							],
+							"query": [
+								{
+									"key": "warehouseId",
+									"value": "1"
+								},
+								{
+									"key": "supplierId",
+									"value": "2"
+								},
+								{
+									"key": "status",
+									"value": "draft"
+								},
+								{
+									"key": "q",
+									"value": "PO-"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get PO By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/po/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"po",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve PO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/po/1/approve",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"po",
+								"1",
+								"approve"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Goods Receive (GRN)",
+			"item": [
+				{
+					"name": "Create GRN (Partial)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"purchaseOrderId\": 1,\n  \"receivedDate\": \"2026-01-20\",\n  \"items\": [\n    {\"poItemId\": 1, \"qtyReceived\": 40},\n    {\"poItemId\": 2, \"qtyReceived\": 10}\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/grn",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"grn"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reports & Stock",
+			"item": [
+				{
+					"name": "PO Receiving Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/po/1/receiving-summary",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"po",
+								"1",
+								"receiving-summary"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "View Stocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/stocks?warehouseId=1&productId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"stocks"
+							],
+							"query": [
+								{
+									"key": "warehouseId",
+									"value": "1"
+								},
+								{
+									"key": "productId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		}
+	]
+}
