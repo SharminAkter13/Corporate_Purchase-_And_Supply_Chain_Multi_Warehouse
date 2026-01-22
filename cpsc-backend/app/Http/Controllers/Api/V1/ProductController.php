@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     public function index(Request $request) {
-        $query = \App\Models\Product::query();
+        $query = Product::query();
         if ($request->has('q')) {
             $query->where('name', 'like', "%{$request->q}%")
                 ->orWhere('sku', 'like', "%{$request->q}%");

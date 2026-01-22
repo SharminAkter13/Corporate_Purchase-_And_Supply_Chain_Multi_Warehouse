@@ -47,7 +47,7 @@ class PurchaseRequisitionController extends Controller
             return response()->json(['success' => false, 'message' => 'Validation Error', 'data' => $validator->errors()], 422);
         }
 
-        // ______ Duplicate product check in  PR______
+        // ______logic for  Duplicate product check in  PR______
 
         $productIds = collect($request->items)->pluck('productId');
         if ($productIds->duplicates()->isNotEmpty()) {

@@ -30,7 +30,7 @@ class GoodsReceiveController extends Controller
 
         $po = PurchaseOrder::findOrFail($request->purchaseOrderId);
 
-        //  ____must be approved PO_____
+        //  ____logic for approved PO_____
 
         if ($po->status !== 'approved') {
             return response()->json(['success' => false, 'message' => 'Cannot receive items against a non-approved PO'], 422);
@@ -46,7 +46,7 @@ class GoodsReceiveController extends Controller
             foreach ($request->items as $itemData) {
                 $poItem = PurchaseOrderItem::findOrFail($itemData['poItemId']);
                 
-                // ____Over-receive prevention____
+                // ____logic for Over-receive prevention____
 
                 $alreadyReceived = $poItem->receiveItems()->sum('qty_received');
                 $remaining = $poItem->qty_ordered - $alreadyReceived;
@@ -55,14 +55,14 @@ class GoodsReceiveController extends Controller
                     throw new \Exception("Over-receive not allowed for product: {$poItem->product->name}. Remaining: {$remaining}");
                 }
 
-                // ____Create GRN Item_____
+                // ____logic for Create GRN Item_____
                 $grn->items()->create([
                     'purchase_order_item_id' => $poItem->id,
                     'product_id' => $poItem->product_id,
                     'qty_received' => $itemData['qtyReceived']
                 ]);
 
-                // _____Concurrency & lockForUpdate_____
+                // _____logic for Concurrency & lockForUpdate_____
 
                 $stock = Stock::where('warehouse_id', $po->warehouse_id)
                     ->where('product_id', $poItem->product_id)
@@ -75,7 +75,7 @@ class GoodsReceiveController extends Controller
                 $stock->qty_on_hand += $itemData['qtyReceived'];
                 $stock->save();
 
-                // ____Recorded Stock Ledger_____
+                // ____logic for Recorded Stock Ledger_____
                 
                 StockLedger::create([
                     'warehouse_id' => $po->warehouse_id,
