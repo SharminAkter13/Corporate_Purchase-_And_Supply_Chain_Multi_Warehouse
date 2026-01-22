@@ -86,13 +86,21 @@ Postman collection included
 Standard API response format
 
 #Setup Instructions
+
 git clone <repo-url>
+
 cd cpsc-backend
+
 cp .env.example .env
+
 composer install
+
 php artisan key:generate
+
 php artisan migrate --seed
+
 php artisan serve
 
 #Copy Right
+
 Sharmin Akter
