@@ -101,6 +101,6 @@ php artisan migrate --seed
 
 php artisan serve
 
-#Copy Right
+# Copy Right
 
 Sharmin Akter
